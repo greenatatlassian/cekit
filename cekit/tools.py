@@ -5,6 +5,7 @@ import ssl
 import subprocess
 import sys
 from distutils import dir_util
+from typing import Any, Dict
 from urllib.parse import urlparse
 from urllib.request import urlopen
 
@@ -31,6 +32,10 @@ class Map(dict):
 
 # Make sure YAML can understand how to represent the Map object
 SafeRepresenter.add_representer(Map, SafeRepresenter.represent_dict)
+
+
+def normalize_path(path: str) -> str:
+    return os.path.abspath(os.path.expanduser(os.path.normcase(path)))
 
 
 def download_file(url, destination):
@@ -92,9 +97,8 @@ def download_file(url, destination):
     else:
         raise CekitError("Unsupported URL scheme: {}".format(url))
 
-
-def load_descriptor(descriptor):
-    """parses descriptor and validate it against requested schema type
+def load_yaml(descriptor) -> Dict[str, Any]:
+    """parses YAML data
 
     Args:
       descriptor - yaml descriptor or path to a descriptor to be loaded.

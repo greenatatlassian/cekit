@@ -115,7 +115,10 @@ def test_content_sets_file_container_file(tmpdir, mocker, caplog):
         "osbs": {"configuration": {"container_file": "container.yaml"}},
     }
 
-    content_sets = {"x86_64": ["aaa", "bbb"]}
+    content_sets = {
+        "x86_64": ["aaa", "bbb"],
+        "arm64": ["aaa", "bbb"],
+    }
     container = {"compose": {"pulp_repos": True}}
 
     image_dir = str(tmpdir.mkdir("source"))
@@ -154,7 +157,10 @@ def test_content_sets_file_container_embedded(tmpdir, mocker, caplog):
         "osbs": {"configuration": {"container": {"compose": {"pulp_repos": True}}}},
     }
 
-    content_sets = {"x86_64": ["aaa", "bbb"]}
+    content_sets = {
+        "x86_64": ["aaa", "bbb"],
+        "arm64": ["aaa", "bbb"],
+    }
 
     image_dir = str(tmpdir.mkdir("source"))
 
@@ -185,7 +191,12 @@ def test_content_sets_embedded_container_embedded(tmpdir, mocker, caplog):
     )
     overrides_descriptor = {
         "schema_version": 1,
-        "packages": {"content_sets": {"x86_64": ["aaa", "bbb"]}},
+        "packages": {
+            "content_sets": {
+                "x86_64": ["aaa", "bbb"],
+                "arm64": ["aaa", "bbb"],
+            }
+        },
         "osbs": {"configuration": {"container": {"compose": {"pulp_repos": True}}}},
     }
 
@@ -216,7 +227,12 @@ def test_content_sets_embedded_container_file(tmpdir, mocker, caplog):
 
     overrides_descriptor = {
         "schema_version": 1,
-        "packages": {"content_sets": {"x86_64": ["aaa", "bbb"]}},
+        "packages": {
+            "content_sets": {
+                "x86_64": ["aaa", "bbb"],
+                "arm64": ["aaa", "bbb"],
+            },
+        },
         "osbs": {"configuration": {"container_file": "container.yaml"}},
     }
 
@@ -1512,7 +1528,10 @@ def test_disabling_content_sets(tmpdir, caplog, parameter):
 
     with open(os.path.join(image_dir, "content_sets.yml"), "w") as fd:
         yaml.dump(
-            {"x86_64": ["rhel-server-rhscl-7-rpms", "rhel-7-server-rpms"]},
+            {
+                "x86_64": ["rhel-server-rhscl-7-rpms", "rhel-7-server-rpms"],
+                "arm64": ["rhel-server-rhscl-7-rpms", "rhel-7-server-rpms"],
+            },
             fd,
             default_flow_style=False,
         )

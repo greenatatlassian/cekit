@@ -101,7 +101,10 @@ def test_dockerfile_docker_odcs_pulp(tmpdir, mocker):
     mocker.patch("cekit.generator.docker.DockerGenerator.dependencies")
     target = str(tmpdir.mkdir("target"))
     desc_part = {
-        "packages": {"content_sets": {"x86_64": "foo"}, "install": ["a"]},
+        "packages": {
+            "content_sets": {"x86_64": "foo", "arm64": "bar"},
+            "install": ["a"],
+        },
         "osbs": {"repository": {"name": "repo_name", "branch": "branch_name"}},
     }
 
